@@ -8,7 +8,7 @@ public class Fase extends JPanel {
     private Image fundo;
     private Personagem personagem;
     public Fase () {
-        ImageIcon carregando = new ImageIcon("src/resources/fundooriginal.jpg");
+        ImageIcon carregando = new ImageIcon("src/resources/funde.jpg");
         fundo = carregando.getImage();
 
         personagem = new Personagem();

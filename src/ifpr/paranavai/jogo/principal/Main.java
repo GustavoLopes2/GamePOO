@@ -7,7 +7,7 @@ public class Main extends JFrame {
         Fase fase = new Fase();
         super.add(fase);
         super.setTitle("Jogo IFPR POO - Gustavo");
-        super.setSize(1000,1500);
+        super.setSize(1620,940);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);

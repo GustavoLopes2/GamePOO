@@ -16,7 +16,7 @@ public class Personagem {
         this.posicaoEmY = 100;
     }
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("src/resources/barcos.png");
+        ImageIcon carregando = new ImageIcon("src/resources/nave128.png");
         this.imagem = carregando.getImage();
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
