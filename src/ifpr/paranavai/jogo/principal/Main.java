@@ -10,23 +10,22 @@ public class Main extends JFrame {
         fase.repaint();
     }
     public void addSettings() {
-        Fase fase = new Fase();
-        super.add(fase);
+         super.add(fase);
         super.setTitle("Jogo IFPR POO - Gustavo");
-        super.setSize(1620,940);
+        super.setSize(1536,960);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
         super.setVisible(true);
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Main mainSc = new Main();
         mainSc.addSettings();
         while (true) {
             mainSc.fase.moveEntities();
             //mainSc.fase.collision();
             mainSc.repaint();
-            //Thread.sleep(10);
+            Thread.sleep(10);
         }
     }
 }

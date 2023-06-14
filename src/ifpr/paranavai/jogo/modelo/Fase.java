@@ -19,7 +19,7 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     public Fase(){                     // Linha adicionada (+)
         setFocusable(true);            // + define o foco inicial do jogo
         setDoubleBuffered(true);       // + Otimização computacional
-        ImageIcon carregando = new ImageIcon("src/resources/funde.jpg");
+        ImageIcon carregando = new ImageIcon("src/resources/fundoArvore.jpg");
         fundo = carregando.getImage();
         personagem = new Personagem(); // + Criação do objeto Personagem
         personagem.carregar();         // + Carregando as informações do nosso personagem

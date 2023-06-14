@@ -21,6 +21,10 @@ public class Projectile {
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
     }
+
+    public Rectangle getRectangle() {
+        return new Rectangle(this.posicaoEmX, this.posicaoEmY, this.larguraImagem, this.alturaImagem);
+    }
     public int getPosicaoEmX() {
         return posicaoEmX;
     }
