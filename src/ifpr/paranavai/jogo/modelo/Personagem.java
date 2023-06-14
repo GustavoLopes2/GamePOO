@@ -2,6 +2,7 @@ package ifpr.paranavai.jogo.modelo;
 
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import java.awt.event.*;
 public class Personagem {
     private int posicaoEmX;
     private int posicaoEmY;
@@ -10,16 +11,61 @@ public class Personagem {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
+    private static final int DESLOCAMENTO = 6;
+    private static final int POSICAO_INICIAL_EM_X = 100;
+    private static final int POSICAO_INICIAL_EM_Y = 100;
 
     public Personagem() {
-        this.posicaoEmX = 100;
-        this.posicaoEmY = 100;
+        this.posicaoEmX = POSICAO_INICIAL_EM_X;;
+        this.posicaoEmY = POSICAO_INICIAL_EM_Y;
     }
     public void carregar() {
         ImageIcon carregando = new ImageIcon("src/resources/nave128.png");
         this.imagem = carregando.getImage();
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
+    }
+    public void atualizar() {
+        this.posicaoEmX = this.posicaoEmX + this.deslocamentoEmX;
+        this.posicaoEmY = this.posicaoEmY + this.deslocamentoEmY;
+    }
+    public void mover(KeyEvent tecla) {
+        int codigo = tecla.getKeyCode();
+        switch (codigo) {
+            case KeyEvent.VK_UP:
+                this.deslocamentoEmY = -DESLOCAMENTO;
+                break;
+            case KeyEvent.VK_DOWN:
+                this.deslocamentoEmY = DESLOCAMENTO;
+                break;
+            case KeyEvent.VK_LEFT:
+                this.deslocamentoEmX = -DESLOCAMENTO;
+                break;
+            case KeyEvent.VK_RIGHT:
+                this.deslocamentoEmX = DESLOCAMENTO;
+                break;
+            default:
+                break;
+        }
+    }
+    public void parar(KeyEvent tecla) {
+        int codigo = tecla.getKeyCode();
+        switch (codigo) {
+            case KeyEvent.VK_UP:
+                deslocamentoEmY = 0;
+                break;
+            case KeyEvent.VK_DOWN:
+                deslocamentoEmY = 0;
+                break;
+            case KeyEvent.VK_LEFT:
+                deslocamentoEmX = 0;
+                break;
+            case KeyEvent.VK_RIGHT:
+                deslocamentoEmX = 0;
+                break;
+            default:
+                break;
+        }
     }
 
     public int getPosicaoEmX() {
