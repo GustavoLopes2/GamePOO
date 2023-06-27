@@ -12,14 +12,7 @@ public class Inimigo {
     private int larguraImagem;
     private int alturaImagem;
     public boolean destroid;
-
-    public boolean isDestroid() {
-        return destroid;
-    }
-
-    public void setDestroid(boolean destroid) {
-        this.destroid = destroid;
-    }
+    public int life;
 
     public Inimigo() {
         int posX = (int)(Math.random() * 5 + 1700);
@@ -36,6 +29,19 @@ public class Inimigo {
 
     public Rectangle getRectangle() {
         return new Rectangle(this.posicaoEmX, this.posicaoEmY, this.larguraImagem, this.alturaImagem);
+    }
+
+    public int getLife() {
+        return life;
+    }
+    public boolean isDestroid() {
+        return destroid;
+    }
+    public void setDestroid(boolean destroid) {
+        this.destroid = destroid;
+    }
+    public void setLife(int life) {
+        this.life = life;
     }
     public int getPosicaoEmX() {
         return posicaoEmX;

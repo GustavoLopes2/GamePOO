@@ -56,6 +56,11 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
         p.carregar();
         projectileList.add(p);
     }
+    public void fireProjectileEspecial() {
+        Projectile p = new Projectile(personagem.getPosicaoEmX(), personagem.getPosicaoEmY());
+        p.carregar();
+        projectileList.add(p);
+    }
 
     public void moveEntities() {
         if(projectileList.size() > 0) {
@@ -68,7 +73,7 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                 i.setPosicaoEmX(i.getPosicaoEmX() - 4);
             });
         }
-        this.spawnEnemy();
+        //this.spawnEnemy();
     }
 
     public void collision() {
@@ -77,13 +82,21 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < inimigos.size(); i++) {
                 for (int l = 0; l < projectileList.size(); l++) {
                     if (projectileList.get(l).getRectangle().intersects(inimigos.get(i).getRectangle())) {
-                        this.inimigos.get(i).destroid = true;
+                        this.inimigos.get(i).life++;
+                        if(this.inimigos.get(i).life == 4)
+                            this.inimigos.get(i).destroid = true;
+                        this.projectileList.get(l).destroid = true;
                 }
             }
         }
         for (int j = 0; j < inimigos.size(); j++) {
             if (this.inimigos.get(j).destroid) {
                 inimigos.remove(j);
+            }
+        }
+        for (int j = 0; j < projectileList.size(); j++) {
+            if (this.projectileList.get(j).destroid) {
+                projectileList.remove(j);
             }
         }
     }
@@ -123,6 +136,9 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE) {
             this.fireProjectile();
+        }
+        if(e.getKeyCode() == KeyEvent.VK_Z) {
+            this.fireProjectileEspecial();
         }
         personagem.parar(e);
     }

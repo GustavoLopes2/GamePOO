@@ -11,6 +11,7 @@ public class Projectile  {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
+    public boolean destroid;
     public Projectile(int posX, int posY) {
         this.posicaoEmX = posX + 120;
         this.posicaoEmY = posY + 32;
