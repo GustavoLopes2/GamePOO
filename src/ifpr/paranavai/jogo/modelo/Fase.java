@@ -13,20 +13,24 @@ import java.awt.event.*;
 public class Fase extends JPanel implements ActionListener, KeyListener {
     private Image fundo;
     private Personagem personagem;
+    private Inimigo inimigo;
+    private Projectile projectile;
     private ArrayList<Projectile> projectileList = new ArrayList<>();
+    private ArrayList<Inimigo> inimigos = new ArrayList<>();
     private static final int DELAY = 5;
     private Timer timer;
-    public Fase(){                     // Linha adicionada (+)
-        setFocusable(true);            // + define o foco inicial do jogo
-        setDoubleBuffered(true);       // + Otimização computacional
+    public Fase(){
+        setFocusable(true);
+        setDoubleBuffered(true);
         ImageIcon carregando = new ImageIcon("src/resources/fundoArvore.jpg");
         fundo = carregando.getImage();
-        personagem = new Personagem(); // + Criação do objeto Personagem
-        personagem.carregar();         // + Carregando as informações do nosso personagem
-        addKeyListener(this);          // + Definindo que a própria classe irá controlar os eventos do teclado
+        personagem = new Personagem();
+        personagem.carregar();
+        addKeyListener(this);
         timer = new Timer(1000, cleanUpEntities);
-        timer = new Timer(DELAY,this);    // + Criação do objeto Timer
-        timer.start();                 // + Iniciando o nosso jogo
+        timer = new Timer(DELAY,this);
+        timer.start();
+        spawnEnemy();
     }
     public void paint(Graphics g) {
         Graphics2D graficos = (Graphics2D) g;
@@ -34,8 +38,17 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
         projectileList.stream().forEach(p ->{
             graficos.drawImage(p.getImagem(), p.getPosicaoEmX(), p.getPosicaoEmY(), this);
         });
+        inimigos.stream().forEach(o -> {
+            graficos.drawImage(o.getImagem(), o.getPosicaoEmX(), o.getPosicaoEmY(), this);
+        });
         graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), this);
         g.dispose();
+    }
+
+    public void spawnEnemy() {
+        Inimigo i = new Inimigo();
+        i.carregar();
+        inimigos.add(i);
     }
 
     public void fireProjectile() {
@@ -43,18 +56,51 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
         p.carregar();
         projectileList.add(p);
     }
+
     public void moveEntities() {
         if(projectileList.size() > 0) {
             projectileList.stream().forEach(p -> {
                 p.setPosicaoEmX(p.getPosicaoEmX() + 4);
             });
         }
+        if(inimigos.size() > 0) {
+            inimigos.stream().forEach(i -> {
+                i.setPosicaoEmX(i.getPosicaoEmX() - 4);
+            });
+        }
+        this.spawnEnemy();
+    }
+
+    public void collision() {
+        personagem.getRectangle();
+
+        for (int i = 0; i < inimigos.size(); i++) {
+                for (int l = 0; l < projectileList.size(); l++) {
+                    if (projectileList.get(l).getRectangle().intersects(inimigos.get(i).getRectangle())) {
+                        this.inimigos.get(i).destroid = true;
+                }
+            }
+        }
+        for (int j = 0; j < inimigos.size(); j++) {
+            if (this.inimigos.get(j).destroid) {
+                inimigos.remove(j);
+            }
+        }
     }
     ActionListener cleanUpEntities = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
-            for(int i = 0;i<projectileList.size();i++) {
-                if(projectileList.get(i).getPosicaoEmX() > 1000) {
+            for (int i = 0; i < projectileList.size(); i++) {
+                if (projectileList.get(i).getPosicaoEmX() > 1000) {
                     projectileList.remove(i);
+                }
+            }
+            //Colisão
+            for (int l = 0; l < projectileList.size(); l++) {
+                if (projectileList.get(l).getRectangle().intersects(inimigos.get(l).getRectangle())) {
+                    for (int i = 0; i < inimigos.size(); i++) {
+                        inimigos.remove(i);
+                        System.out.println("Colisão com item");
+                    }
                 }
             }
         }

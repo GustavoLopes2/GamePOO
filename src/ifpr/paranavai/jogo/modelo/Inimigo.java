@@ -3,7 +3,7 @@ package ifpr.paranavai.jogo.modelo;
 import javax.swing.*;
 import java.awt.*;
 
-public class Projectile  {
+public class Inimigo {
     private int posicaoEmX;
     private int posicaoEmY;
     private int deslocamentoEmX;
@@ -11,20 +11,32 @@ public class Projectile  {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
-    public Projectile(int posX, int posY) {
-        this.posicaoEmX = posX + 120;
-        this.posicaoEmY = posY + 32;
+    public boolean destroid;
+
+    public boolean isDestroid() {
+        return destroid;
+    }
+
+    public void setDestroid(boolean destroid) {
+        this.destroid = destroid;
+    }
+
+    public Inimigo() {
+        int posX = (int)(Math.random() * 5 + 1700);
+        int posY = (int)(Math.random() * 850 + 0);
+        this.posicaoEmX = posX;
+        this.posicaoEmY = posY;
     }
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("src/resources/municao.png");
+        ImageIcon carregando = new ImageIcon("src/resources/inimigo.png");
         this.imagem = carregando.getImage();
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
     }
+
     public Rectangle getRectangle() {
         return new Rectangle(this.posicaoEmX, this.posicaoEmY, this.larguraImagem, this.alturaImagem);
     }
-
     public int getPosicaoEmX() {
         return posicaoEmX;
     }

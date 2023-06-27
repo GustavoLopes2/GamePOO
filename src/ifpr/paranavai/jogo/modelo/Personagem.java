@@ -1,9 +1,9 @@
 package ifpr.paranavai.jogo.modelo;
 
 import javax.swing.ImageIcon;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.*;
-public class Personagem {
+public class Personagem  {
     private int posicaoEmX;
     private int posicaoEmY;
     private int deslocamentoEmX;
@@ -24,6 +24,9 @@ public class Personagem {
         this.imagem = carregando.getImage();
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
+    }
+    public Rectangle getRectangle() {
+        return new Rectangle(this.posicaoEmX, this.posicaoEmY, this.larguraImagem, this.alturaImagem);
     }
     public void atualizar() {
         this.posicaoEmX = this.posicaoEmX + this.deslocamentoEmX;

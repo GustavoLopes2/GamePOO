@@ -10,7 +10,7 @@ public class Main extends JFrame {
         fase.repaint();
     }
     public void addSettings() {
-         super.add(fase);
+        super.add(fase);
         super.setTitle("Jogo IFPR POO - Gustavo");
         super.setSize(1536,960);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +23,7 @@ public class Main extends JFrame {
         mainSc.addSettings();
         while (true) {
             mainSc.fase.moveEntities();
-            //mainSc.fase.collision();
+            mainSc.fase.collision();
             mainSc.repaint();
             Thread.sleep(10);
         }
