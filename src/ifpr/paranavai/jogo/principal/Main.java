@@ -13,7 +13,7 @@ public class Main extends JFrame {
     public void addSettings() {
         super.add(fase);
         super.setTitle("Jogo IFPR POO - Gustavo");
-        super.setSize(1536,960);
+        super.setSize(1600,900);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
@@ -22,9 +22,8 @@ public class Main extends JFrame {
     public static void main(String[] args) throws InterruptedException {
         Main mainSc = new Main();
         mainSc.addSettings();
-        while (controle == false) {
+        while (!controle) {
             mainSc.fase.moveEntities();
-            mainSc.fase.collision();
             mainSc.repaint();
             Thread.sleep(10);
         }

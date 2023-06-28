@@ -3,6 +3,8 @@ package ifpr.paranavai.jogo.modelo;
 import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 public class Personagem  {
     private int posicaoEmX;
     private int posicaoEmY;
@@ -11,25 +13,39 @@ public class Personagem  {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
+    private ArrayList<Tiro> tiros;
     private static final int DESLOCAMENTO = 6;
     private static final int POSICAO_INICIAL_EM_X = 100;
     private static final int POSICAO_INICIAL_EM_Y = 100;
+    private boolean isVisivel;
     public int life;
     public boolean destroid;
 
     public Personagem() {
         this.posicaoEmX = POSICAO_INICIAL_EM_X;;
         this.posicaoEmY = POSICAO_INICIAL_EM_Y;
+        this.tiros = new ArrayList<Tiro>();
+        isVisivel = true;
     }
+
     public void carregar() {
         ImageIcon carregando = new ImageIcon("src/resources/nave128.png");
         this.imagem = carregando.getImage();
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
     }
+
     public Rectangle getRectangle() {
         return new Rectangle(this.posicaoEmX, this.posicaoEmY, this.larguraImagem, this.alturaImagem);
     }
+
+    public void atirar() {
+        int frenteDaNave = this.posicaoEmX + this.larguraImagem;
+        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2);
+        Tiro tiro = new Tiro(frenteDaNave, meioDaNave);
+        this.tiros.add(tiro);
+    }
+
     public void atualizar() {
         this.posicaoEmX = this.posicaoEmX + this.deslocamentoEmX;
         this.posicaoEmY = this.posicaoEmY + this.deslocamentoEmY;
@@ -71,6 +87,14 @@ public class Personagem  {
             default:
                 break;
         }
+    }
+
+    public boolean isVisivel() {
+        return isVisivel;
+    }
+
+    public void setVisivel(boolean visivel) {
+        isVisivel = visivel;
     }
 
     public int getPosicaoEmX() {
@@ -143,5 +167,13 @@ public class Personagem  {
 
     public void setDestroid(boolean destroid) {
         this.destroid = destroid;
+    }
+
+    public ArrayList<Tiro> getTiros() {
+        return tiros;
+    }
+
+    public void setTiros(ArrayList<Tiro> tiros) {
+        this.tiros = tiros;
     }
 }

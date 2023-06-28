@@ -1,5 +1,7 @@
 package ifpr.paranavai.jogo.modelo;
 
+import ifpr.paranavai.jogo.modelo.Ambiente.Estrelas;
+import ifpr.paranavai.jogo.modelo.Inimigos.InimigoUm;
 import ifpr.paranavai.jogo.principal.Main;
 
 import java.awt.*;
@@ -7,78 +9,98 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.JFrame;
-import java.awt.event.*;
 
 public class Fase extends JPanel implements ActionListener, KeyListener {
     private final Image fundo;
     private final Personagem personagem;
-    private Inimigo inimigo;
-    private Projectile projectile;
-    private final ArrayList<Projectile> projectileList = new ArrayList<>();
-    private final ArrayList<Inimigo> inimigos = new ArrayList<>();
+    private ArrayList<Tiro> tiroList;
+    private ArrayList<InimigoUm> inimigosUm;
+    private ArrayList<Estrelas> estrelas;
+    private static final int QTDE_DE_INIMIGOS = 40;
+    private static final int QTDE_DE_ESTRELAS = 40;
+    private static final int LARGURA_DA_JANELA = 1536;
     private static final int DELAY = 5;
+    private boolean emJogo;
     private Timer timer;
-    private Image imagem;
-    private int larguraImagem;
-    private int alturaImagem;
 
     public Fase(){
         setFocusable(true);
         setDoubleBuffered(true);
-        ImageIcon carregando = new ImageIcon("src/resources/fundoArvore.jpg");
+        ImageIcon carregando = new ImageIcon("src/resources/background.png");
         fundo = carregando.getImage();
         personagem = new Personagem();
-        //JLabel projectileSuper = new JLabel(new ImageIcon(getClass().getResource("src/resources/municao.png")));
         personagem.carregar();
         addKeyListener(this);
         timer = new Timer(1000, cleanUpEntities);
-        //timer = new Timer(1500, spawnEnemy());
         timer = new Timer(DELAY,this);
         timer.start();
-        spawnEnemy();
+        this.inicializaInimigos();
+        this.inicializaEstrelas();
+        emJogo = true;
     }
     public void paint(Graphics g) {
         Graphics2D graficos = (Graphics2D) g;
-        graficos.drawImage(fundo, 0,0, null);
-        projectileList.stream().forEach(p ->{
-            graficos.drawImage(p.getImagem(), p.getPosicaoEmX(), p.getPosicaoEmY(), this);
-        });
-        inimigos.stream().forEach(o -> {
-            graficos.drawImage(o.getImagem(), o.getPosicaoEmX(), o.getPosicaoEmY(), this);
-        });
-        graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), this);
-        g.dispose();
+        if(emJogo) {
+            graficos.drawImage(fundo, 0, 0, null);
+
+            for (int p = 0; p < estrelas.size(); p++) {
+                Estrelas q = estrelas.get(p);
+                q.carregar();
+                graficos.drawImage(q.getImagem(), q.getPosicaoEmX(), q.getPosicaoEmY(), this);
+            }
+
+            graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), this);
+            //Tiro
+            ArrayList<Tiro> tiros = personagem.getTiros();
+            for (Tiro tiro : tiros) {
+                tiro.carregar();
+                graficos.drawImage(tiro.getImagem(), tiro.getPosicaoEmX(), tiro.getPosicaoEmY(), this);
+            }
+            //Inimigo
+            for (InimigoUm inimigoUm : inimigosUm) {
+                inimigoUm.carregar();
+                graficos.drawImage(inimigoUm.getImagem(), inimigoUm.getPosicaoEmX(), inimigoUm.getPosicaoEmY(), this);
+            }
+        } else {
+            ImageIcon fimJogo = new ImageIcon("src\\resources\\gifDeathTeste.gif");
+            graficos.drawImage(fimJogo.getImage(),0,0,null);
+        }
+            //Dispose
+            g.dispose();
+
     }
 
-    public void spawnEnemy() {
-        Inimigo i = new Inimigo();
-        i.carregar();
-        inimigos.add(i);
-    }
+    public void inicializaInimigos(){
+        inimigosUm = new ArrayList<InimigoUm>();
 
-    public void fireProjectile() {
-        Projectile p = new Projectile(personagem.getPosicaoEmX(), personagem.getPosicaoEmY());
-        p.carregar();
-        projectileList.add(p);
+        for (int i = 0; i < QTDE_DE_INIMIGOS; i++) {
+            int x = (int) (Math.random() * 8000 + 1600);
+            int y = (int) (Math.random() * 900 + 30);
+            InimigoUm inimigoUm = new InimigoUm(x, y);
+            inimigosUm.add(inimigoUm);
+        }
     }
-    public void fireProjectileEspecial() {
-        Projectile p = new Projectile(personagem.getPosicaoEmX(), personagem.getPosicaoEmY());
-        p.carregar();
-        projectileList.add(p);
-    }
+    public void inicializaEstrelas() {
+        estrelas = new ArrayList<Estrelas>();
 
+        for (int i = 0; i < QTDE_DE_ESTRELAS; i++) {
+            int x = (int) (Math.random() * 4000 + 1600);
+            int y = (int) (Math.random() * 900 + 0);
+            Estrelas estrelasUm = new Estrelas(x,y);
+            estrelas.add(estrelasUm);
+        }
+    }
     public void moveEntities() {
-        if(projectileList.size() > 0) {
-            projectileList.stream().forEach(p -> {
-                p.setPosicaoEmX(p.getPosicaoEmX() + 4);
+        ArrayList<Tiro> tiros = personagem.getTiros();
+        if(tiros.size() > 0) {
+            tiros.stream().forEach(p -> {
+                p.setPosicaoEmX(p.getPosicaoEmX() + 8);
             });
         }
-        if(inimigos.size() > 0) {
-            inimigos.stream().forEach(i -> {
+        if(inimigosUm.size() > 0) {
+            inimigosUm.stream().forEach(i -> {
                 i.setPosicaoEmX(i.getPosicaoEmX() - 4);
             });
         }
@@ -86,59 +108,83 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     }
 
     public void collision() {
-
-        for (int i = 0; i < inimigos.size(); i++) {
-                for (int l = 0; l < projectileList.size(); l++) {
-                    if (projectileList.get(l).getRectangle().intersects(inimigos.get(i).getRectangle())) {
-                        this.inimigos.get(i).life++;
-                        if(this.inimigos.get(i).life == 4)
-                            this.inimigos.get(i).destroid = true;
-                        this.projectileList.get(l).destroid = true;
+        ArrayList<Tiro> tiros = personagem.getTiros();
+        for (int i = 0; i < inimigosUm.size(); i++) {
+                for (int l = 0; l < tiros.size(); l++) {
+                    if (tiros.get(l).getRectangle().intersects(inimigosUm.get(i).getRectangle())) {
+                        this.inimigosUm.get(i).life++;
+                        System.out.println(this.inimigosUm.get(i).life++);
+                        if(this.inimigosUm.get(i).life == 4)
+                            this.inimigosUm.get(i).destroid = true;
+                        tiros.get(l).destroid = true;
                 }
             }
         }
 
-        for (int k = 0; k < inimigos.size(); k++) {
-            if(personagem.getRectangle().intersects(inimigos.get(k).getRectangle())) {
-                //this.personagem.life++;
-                //this.inimigos.get(k).destroid = true;
-                //if(this.personagem.life == 8)
-                    this.personagem.setImagem(null);
-                    this.inimigos.get(k).destroid = true;
-                    this.carregarImagem();
-                    Main.controle = true;
+        for (int k = 0; k < inimigosUm.size(); k++) {
+            if(personagem.getRectangle().intersects(inimigosUm.get(k).getRectangle())) {
+                this.personagem.life++;
+                this.inimigosUm.get(k).destroid = true;
+                if(this.personagem.life == 8) {
+                    this.personagem.setVisivel(false);
+                    this.inimigosUm.get(k).destroid = true;
+                    emJogo = false;
+                }
             }
         }
-        for (int j = 0; j < inimigos.size(); j++) {
-            if (this.inimigos.get(j).destroid) {
-                inimigos.remove(j);
+        for (int j = 0; j < inimigosUm.size(); j++) {
+            if (this.inimigosUm.get(j).destroid) {
+                inimigosUm.remove(j);
             }
         }
 
-        for (int j = 0; j < projectileList.size(); j++) {
-            if (this.projectileList.get(j).destroid) {
-                projectileList.remove(j);
+        for (int j = 0; j < tiros.size(); j++) {
+            if (tiros.get(j).destroid) {
+                tiros.remove(j);
             }
         }
     }
     ActionListener cleanUpEntities = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
-            for (int i = 0; i < projectileList.size(); i++) {
-                if (projectileList.get(i).getPosicaoEmX() > 1000) {
-                    projectileList.remove(i);
+            for (int i = 0; i < tiroList.size(); i++) {
+                if (tiroList.get(i).getPosicaoEmX() > 1000) {
+                    tiroList.remove(i);
                 }
             }
         }
     };
 
-    public void carregarImagem() {
-        ImageIcon carregando = new ImageIcon("src/resources/gitDeath.gif");
-        this.imagem = carregando.getImage();
-    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(personagem != null) {
             personagem.atualizar();
+
+            for (int p = 0; p < estrelas.size(); p++) {
+                Estrelas on = estrelas.get(p);
+                if(on.isVisivel()) {
+                    on.atualizar();
+                } else {
+                    estrelas.remove(p);
+                }
+            }
+
+            //Tiro
+            ArrayList<Tiro> tiros = personagem.getTiros();
+            for (int i = 0; i < tiros.size(); i++) {
+                if (tiros.get(i).getPosicaoEmX() > LARGURA_DA_JANELA)
+                    tiros.remove(i);
+                else
+                    tiros.get(i).atualizar();
+            }
+
+            //Inimigo
+            for (int i = 0; i < inimigosUm.size(); i++) {
+                if (inimigosUm.get(i).getPosicaoEmX() < 0)
+                    inimigosUm.remove(i);
+                else
+                    inimigosUm.get(i).atualizar();
+            }
+            collision();
             repaint();
         }
     }
@@ -149,18 +195,16 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        if(personagem != null)
-            personagem.mover(e);
+        if(personagem != null) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE)
+                personagem.atirar();
+            else
+                personagem.mover(e);
+        }
     }
     @Override
     public void keyReleased(KeyEvent e) {
         if (personagem != null) {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                this.fireProjectile();
-            }
-            if (e.getKeyCode() == KeyEvent.VK_Z) {
-                this.fireProjectileEspecial();
-            }
             personagem.parar(e);
         }
     }
