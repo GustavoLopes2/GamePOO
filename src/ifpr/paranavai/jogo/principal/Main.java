@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import ifpr.paranavai.jogo.modelo.Fase;
 public class Main extends JFrame {
     private Fase fase = new Fase();
+    public static boolean controle;
     public Main() {
         fase.setFocusable(true);
         fase.addKeyListener(fase);
@@ -21,7 +22,7 @@ public class Main extends JFrame {
     public static void main(String[] args) throws InterruptedException {
         Main mainSc = new Main();
         mainSc.addSettings();
-        while (true) {
+        while (controle == false) {
             mainSc.fase.moveEntities();
             mainSc.fase.collision();
             mainSc.repaint();

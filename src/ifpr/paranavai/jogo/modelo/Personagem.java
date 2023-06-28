@@ -14,6 +14,8 @@ public class Personagem  {
     private static final int DESLOCAMENTO = 6;
     private static final int POSICAO_INICIAL_EM_X = 100;
     private static final int POSICAO_INICIAL_EM_Y = 100;
+    public int life;
+    public boolean destroid;
 
     public Personagem() {
         this.posicaoEmX = POSICAO_INICIAL_EM_X;;
@@ -125,5 +127,21 @@ public class Personagem  {
 
     public void setAlturaImagem(int alturaImagem) {
         this.alturaImagem = alturaImagem;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public boolean isDestroid() {
+        return destroid;
+    }
+
+    public void setDestroid(boolean destroid) {
+        this.destroid = destroid;
     }
 }

@@ -1,5 +1,7 @@
 package ifpr.paranavai.jogo.modelo;
 
+import ifpr.paranavai.jogo.principal.Main;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,26 +10,33 @@ import java.awt.event.KeyListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.JFrame;
 import java.awt.event.*;
 
 public class Fase extends JPanel implements ActionListener, KeyListener {
-    private Image fundo;
-    private Personagem personagem;
+    private final Image fundo;
+    private final Personagem personagem;
     private Inimigo inimigo;
     private Projectile projectile;
-    private ArrayList<Projectile> projectileList = new ArrayList<>();
-    private ArrayList<Inimigo> inimigos = new ArrayList<>();
+    private final ArrayList<Projectile> projectileList = new ArrayList<>();
+    private final ArrayList<Inimigo> inimigos = new ArrayList<>();
     private static final int DELAY = 5;
     private Timer timer;
+    private Image imagem;
+    private int larguraImagem;
+    private int alturaImagem;
+
     public Fase(){
         setFocusable(true);
         setDoubleBuffered(true);
         ImageIcon carregando = new ImageIcon("src/resources/fundoArvore.jpg");
         fundo = carregando.getImage();
         personagem = new Personagem();
+        //JLabel projectileSuper = new JLabel(new ImageIcon(getClass().getResource("src/resources/municao.png")));
         personagem.carregar();
         addKeyListener(this);
         timer = new Timer(1000, cleanUpEntities);
+        //timer = new Timer(1500, spawnEnemy());
         timer = new Timer(DELAY,this);
         timer.start();
         spawnEnemy();
@@ -77,7 +86,6 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     }
 
     public void collision() {
-        personagem.getRectangle();
 
         for (int i = 0; i < inimigos.size(); i++) {
                 for (int l = 0; l < projectileList.size(); l++) {
@@ -89,11 +97,24 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                 }
             }
         }
+
+        for (int k = 0; k < inimigos.size(); k++) {
+            if(personagem.getRectangle().intersects(inimigos.get(k).getRectangle())) {
+                //this.personagem.life++;
+                //this.inimigos.get(k).destroid = true;
+                //if(this.personagem.life == 8)
+                    this.personagem.setImagem(null);
+                    this.inimigos.get(k).destroid = true;
+                    this.carregarImagem();
+                    Main.controle = true;
+            }
+        }
         for (int j = 0; j < inimigos.size(); j++) {
             if (this.inimigos.get(j).destroid) {
                 inimigos.remove(j);
             }
         }
+
         for (int j = 0; j < projectileList.size(); j++) {
             if (this.projectileList.get(j).destroid) {
                 projectileList.remove(j);
@@ -107,21 +128,19 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                     projectileList.remove(i);
                 }
             }
-            //Colisão
-            for (int l = 0; l < projectileList.size(); l++) {
-                if (projectileList.get(l).getRectangle().intersects(inimigos.get(l).getRectangle())) {
-                    for (int i = 0; i < inimigos.size(); i++) {
-                        inimigos.remove(i);
-                        System.out.println("Colisão com item");
-                    }
-                }
-            }
         }
     };
+
+    public void carregarImagem() {
+        ImageIcon carregando = new ImageIcon("src/resources/gitDeath.gif");
+        this.imagem = carregando.getImage();
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
-        personagem.atualizar();
-        repaint();
+        if(personagem != null) {
+            personagem.atualizar();
+            repaint();
+        }
     }
     @Override
     public void keyTyped(KeyEvent e) {
@@ -130,16 +149,19 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        personagem.mover(e);
+        if(personagem != null)
+            personagem.mover(e);
     }
     @Override
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-            this.fireProjectile();
+        if (personagem != null) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                this.fireProjectile();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_Z) {
+                this.fireProjectileEspecial();
+            }
+            personagem.parar(e);
         }
-        if(e.getKeyCode() == KeyEvent.VK_Z) {
-            this.fireProjectileEspecial();
-        }
-        personagem.parar(e);
     }
 }
