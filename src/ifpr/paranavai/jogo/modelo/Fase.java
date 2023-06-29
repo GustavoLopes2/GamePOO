@@ -45,10 +45,9 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
         if(emJogo) {
             graficos.drawImage(fundo, 0, 0, null);
 
-            for (int p = 0; p < estrelas.size(); p++) {
-                Estrelas q = estrelas.get(p);
-                q.carregar();
-                graficos.drawImage(q.getImagem(), q.getPosicaoEmX(), q.getPosicaoEmY(), this);
+            for (Estrelas estrela : estrelas) {
+                estrela.carregar();
+                graficos.drawImage(estrela.getImagem(), estrela.getPosicaoEmX(), estrela.getPosicaoEmY(), this);
             }
 
             graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), this);
@@ -64,12 +63,10 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                 graficos.drawImage(inimigoUm.getImagem(), inimigoUm.getPosicaoEmX(), inimigoUm.getPosicaoEmY(), this);
             }
         } else {
-            ImageIcon fimJogo = new ImageIcon("src\\resources\\gifDeathTeste.gif");
+            ImageIcon fimJogo = new ImageIcon("src\\resources\\gameOver.png");
             graficos.drawImage(fimJogo.getImage(),0,0,null);
         }
-            //Dispose
             g.dispose();
-
     }
 
     public void inicializaInimigos(){
@@ -196,6 +193,7 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if(personagem != null) {
+            //timer = new Timer(DELAY,this);
             if (e.getKeyCode() == KeyEvent.VK_SPACE)
                 personagem.atirar();
             else
