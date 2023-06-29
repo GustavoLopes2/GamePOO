@@ -9,7 +9,7 @@ public class InimigoUm {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
-    private static int VELOCIDADE = 2;
+    private static int VELOCIDADE = 8;
     public boolean destroid;
     public int life;
 

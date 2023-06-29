@@ -39,17 +39,19 @@ public class Personagem  {
         return new Rectangle(this.posicaoEmX, this.posicaoEmY, this.larguraImagem, this.alturaImagem);
     }
 
-    public void atirar() {
-        int frenteDaNave = this.posicaoEmX + this.larguraImagem;
-        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2);
-        Tiro tiro = new Tiro(frenteDaNave, meioDaNave);
-        this.tiros.add(tiro);
-    }
-
     public void atualizar() {
         this.posicaoEmX = this.posicaoEmX + this.deslocamentoEmX;
         this.posicaoEmY = this.posicaoEmY + this.deslocamentoEmY;
     }
+
+    public void atirar() {
+        int frenteDaNave = this.posicaoEmX + this.larguraImagem;
+        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2);
+        System.out.println(meioDaNave);
+        Tiro tiro = new Tiro(frenteDaNave, meioDaNave);
+        this.tiros.add(tiro);
+    }
+
     public void mover(KeyEvent tecla) {
         int codigo = tecla.getKeyCode();
         switch (codigo) {

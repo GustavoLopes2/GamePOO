@@ -110,7 +110,6 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                 for (int l = 0; l < tiros.size(); l++) {
                     if (tiros.get(l).getRectangle().intersects(inimigosUm.get(i).getRectangle())) {
                         this.inimigosUm.get(i).life++;
-                        System.out.println(this.inimigosUm.get(i).life++);
                         if(this.inimigosUm.get(i).life == 4)
                             this.inimigosUm.get(i).destroid = true;
                         tiros.get(l).destroid = true;
@@ -187,8 +186,8 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
     }
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println("zé da manga");// TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
     @Override
     public void keyPressed(KeyEvent e) {
