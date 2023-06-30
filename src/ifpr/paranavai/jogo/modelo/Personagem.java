@@ -29,10 +29,10 @@ public class Personagem  {
     }
 
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("src/resources/nave128.png");
+        ImageIcon carregando = new ImageIcon("src/resources/nave128Teste.png");
         this.imagem = carregando.getImage();
-        this.alturaImagem = this.imagem.getWidth(null);
-        this.larguraImagem = this.imagem.getHeight(null);
+        this.alturaImagem = this.imagem.getHeight(null);
+        this.larguraImagem = this.imagem.getWidth(null);
     }
 
     public Rectangle getRectangle() {
@@ -46,8 +46,8 @@ public class Personagem  {
 
     public void atirar() {
         int frenteDaNave = this.posicaoEmX + this.larguraImagem;
-        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2);
-        System.out.println(meioDaNave);
+        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2)-4;
+        //System.out.println(meioDaNave);
         Tiro tiro = new Tiro(frenteDaNave, meioDaNave);
         this.tiros.add(tiro);
     }

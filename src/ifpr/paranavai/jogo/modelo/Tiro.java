@@ -16,7 +16,7 @@ public class Tiro {
         this.posicaoEmY = posY;
     }
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("src/resources/municao.png");
+        ImageIcon carregando = new ImageIcon("src/resources/municaoTeste.png");
         this.imagem = carregando.getImage();
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
