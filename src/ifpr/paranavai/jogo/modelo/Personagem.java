@@ -18,6 +18,9 @@ public class Personagem  {
     private static final int POSICAO_INICIAL_EM_X = 100;
     private static final int POSICAO_INICIAL_EM_Y = 100;
     private boolean isVisivel;
+    private long tempoUltimoTiro;
+    private long tempoAtual;
+    private long delayTiro;
     public int life;
     public boolean destroid;
 
@@ -26,6 +29,7 @@ public class Personagem  {
         this.posicaoEmY = POSICAO_INICIAL_EM_Y;
         this.tiros = new ArrayList<Tiro>();
         isVisivel = true;
+        this.delayTiro = 270;
     }
 
     public void carregar() {
@@ -45,11 +49,19 @@ public class Personagem  {
     }
 
     public void atirar() {
+
+        this.tempoAtual = System.currentTimeMillis();
+
+        if (tempoAtual - tempoUltimoTiro < delayTiro) {
+            return;
+        }
+
         int frenteDaNave = this.posicaoEmX + this.larguraImagem;
         int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2)-4;
-        //System.out.println(meioDaNave);
+
         Tiro tiro = new Tiro(frenteDaNave, meioDaNave);
         this.tiros.add(tiro);
+        tempoUltimoTiro = tempoAtual;
     }
 
     public void mover(KeyEvent tecla) {
@@ -177,5 +189,29 @@ public class Personagem  {
 
     public void setTiros(ArrayList<Tiro> tiros) {
         this.tiros = tiros;
+    }
+
+    public long getTempoUltimoTiro() {
+        return tempoUltimoTiro;
+    }
+
+    public void setTempoUltimoTiro(long tempoUltimoTiro) {
+        this.tempoUltimoTiro = tempoUltimoTiro;
+    }
+
+    public long getTempoAtual() {
+        return tempoAtual;
+    }
+
+    public void setTempoAtual(long tempoAtual) {
+        this.tempoAtual = tempoAtual;
+    }
+
+    public long getDelayTiro() {
+        return delayTiro;
+    }
+
+    public void setDelayTiro(long delayTiro) {
+        this.delayTiro = delayTiro;
     }
 }

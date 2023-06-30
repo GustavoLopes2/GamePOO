@@ -45,6 +45,7 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
         if(emJogo) {
             graficos.drawImage(fundo, 0, 0, null);
 
+            //Estrlas
             for (Estrelas estrela : estrelas) {
                 estrela.carregar();
                 graficos.drawImage(estrela.getImagem(), estrela.getPosicaoEmX(), estrela.getPosicaoEmY(), this);
@@ -110,7 +111,7 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                 for (int l = 0; l < tiros.size(); l++) {
                     if (tiros.get(l).getRectangle().intersects(inimigosUm.get(i).getRectangle())) {
                         this.inimigosUm.get(i).life++;
-                        if(this.inimigosUm.get(i).life == 4)
+                        if(this.inimigosUm.get(i).life == 2)
                             this.inimigosUm.get(i).destroid = true;
                         tiros.get(l).destroid = true;
                 }
