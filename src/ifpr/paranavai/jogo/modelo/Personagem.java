@@ -14,13 +14,16 @@ public class Personagem  {
     private int larguraImagem;
     private int alturaImagem;
     private ArrayList<Tiro> tiros;
+    private ArrayList<SuperTiro> superTiros;
     private static final int DESLOCAMENTO = 6;
     private static final int POSICAO_INICIAL_EM_X = 100;
     private static final int POSICAO_INICIAL_EM_Y = 100;
     private boolean isVisivel;
     private long tempoUltimoTiro;
+    private long tempoUltimoSuperTiro;
     private long tempoAtual;
     private long delayTiro;
+    private long delayTiroSuper;
     public int life;
     public boolean destroid;
 
@@ -28,8 +31,11 @@ public class Personagem  {
         this.posicaoEmX = POSICAO_INICIAL_EM_X;;
         this.posicaoEmY = POSICAO_INICIAL_EM_Y;
         this.tiros = new ArrayList<Tiro>();
+        this.superTiros = new ArrayList<SuperTiro>();
         isVisivel = true;
-        this.delayTiro = 270;
+        this.delayTiro = 150;
+        this.delayTiroSuper = 15000;
+
     }
 
     public void carregar() {
@@ -49,7 +55,6 @@ public class Personagem  {
     }
 
     public void atirar() {
-
         this.tempoAtual = System.currentTimeMillis();
 
         if (tempoAtual - tempoUltimoTiro < delayTiro) {
@@ -62,6 +67,20 @@ public class Personagem  {
         Tiro tiro = new Tiro(frenteDaNave, meioDaNave);
         this.tiros.add(tiro);
         tempoUltimoTiro = tempoAtual;
+    }
+    public void superAtirar() {
+        this.tempoAtual = System.currentTimeMillis();
+
+        if (tempoAtual - tempoUltimoSuperTiro < delayTiroSuper) {
+            return;
+        }
+
+        int frenteDaNave = this.posicaoEmX + this.larguraImagem;
+        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2)-4;
+
+        SuperTiro superTiro = new SuperTiro(frenteDaNave, meioDaNave, this);
+        this.superTiros.add(superTiro);
+        tempoUltimoSuperTiro = tempoAtual;
     }
 
     public void mover(KeyEvent tecla) {
@@ -185,6 +204,30 @@ public class Personagem  {
 
     public ArrayList<Tiro> getTiros() {
         return tiros;
+    }
+
+    public ArrayList<SuperTiro> getSuperTiros() {
+        return superTiros;
+    }
+
+    public void setSuperTiros(ArrayList<SuperTiro> superTiros) {
+        this.superTiros = superTiros;
+    }
+
+    public long getTempoUltimoSuperTiro() {
+        return tempoUltimoSuperTiro;
+    }
+
+    public void setTempoUltimoSuperTiro(long tempoUltimoSuperTiro) {
+        this.tempoUltimoSuperTiro = tempoUltimoSuperTiro;
+    }
+
+    public long getDelayTiroSuper() {
+        return delayTiroSuper;
+    }
+
+    public void setDelayTiroSuper(long delayTiroSuper) {
+        this.delayTiroSuper = delayTiroSuper;
     }
 
     public void setTiros(ArrayList<Tiro> tiros) {

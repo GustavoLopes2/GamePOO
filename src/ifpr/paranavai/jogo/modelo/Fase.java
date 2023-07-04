@@ -58,6 +58,13 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                 tiro.carregar();
                 graficos.drawImage(tiro.getImagem(), tiro.getPosicaoEmX(), tiro.getPosicaoEmY(), this);
             }
+            //SuperTiro
+            ArrayList<SuperTiro> superTiros = personagem.getSuperTiros();
+            for (SuperTiro superTiro : superTiros) {
+                superTiro.carregar();
+                graficos.drawImage(superTiro.getImagem(), superTiro.getPosicaoEmX(), superTiro.getPosicaoEmY(), null);
+            }
+
             //Inimigo
             for (InimigoUm inimigoUm : inimigosUm) {
                 inimigoUm.carregar();
@@ -90,20 +97,6 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
             estrelas.add(estrelasUm);
         }
     }
-    public void moveEntities() {
-        ArrayList<Tiro> tiros = personagem.getTiros();
-        if(tiros.size() > 0) {
-            tiros.stream().forEach(p -> {
-                p.setPosicaoEmX(p.getPosicaoEmX() + 8);
-            });
-        }
-        if(inimigosUm.size() > 0) {
-            inimigosUm.stream().forEach(i -> {
-                i.setPosicaoEmX(i.getPosicaoEmX() - 4);
-            });
-        }
-        //this.spawnEnemy();
-    }
 
     public void collision() {
         ArrayList<Tiro> tiros = personagem.getTiros();
@@ -114,6 +107,18 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                         if(this.inimigosUm.get(i).life == 2)
                             this.inimigosUm.get(i).destroid = true;
                         tiros.get(l).destroid = true;
+                }
+            }
+        }
+
+        ArrayList<SuperTiro> superTiros = personagem.getSuperTiros();
+        for (int i = 0; i < inimigosUm.size(); i++) {
+            for (int l = 0; l < superTiros.size(); l++) {
+                if (superTiros.get(l).getRectangle().intersects(inimigosUm.get(i).getRectangle())) {
+                    this.inimigosUm.get(i).life++;
+                    //if(this.inimigosUm.get(i).life == 2)
+                    this.inimigosUm.get(i).destroid = true;
+                    superTiros.get(l).destroid = true;
                 }
             }
         }
@@ -129,6 +134,7 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                 }
             }
         }
+
         for (int j = 0; j < inimigosUm.size(); j++) {
             if (this.inimigosUm.get(j).destroid) {
                 inimigosUm.remove(j);
@@ -174,6 +180,18 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
                     tiros.get(i).atualizar();
             }
 
+            //Super Tiro
+            ArrayList<SuperTiro> superTiros = personagem.getSuperTiros();
+            for (int i = 0; i < superTiros.size(); i++) {
+                if (!superTiros.get(i).isVisivel()) {
+                        superTiros.get(i).atualizar();
+                        superTiros.remove(i);
+                }
+                else
+                    superTiros.get(i).atualizar();
+            }
+
+
             //Inimigo
             for (int i = 0; i < inimigosUm.size(); i++) {
                 if (inimigosUm.get(i).getPosicaoEmX() < 0)
@@ -196,6 +214,10 @@ public class Fase extends JPanel implements ActionListener, KeyListener {
             //timer = new Timer(DELAY,this);
             if (e.getKeyCode() == KeyEvent.VK_SPACE)
                 personagem.atirar();
+
+            if (e.getKeyCode() == KeyEvent.VK_F /*&& this.getPontos() >= 500*/) {
+                personagem.superAtirar();
+            }
             else
                 personagem.mover(e);
         }
