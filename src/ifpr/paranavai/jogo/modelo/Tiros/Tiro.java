@@ -1,9 +1,11 @@
-package ifpr.paranavai.jogo.modelo;
+package ifpr.paranavai.jogo.modelo.Tiros;
+
+import ifpr.paranavai.jogo.modelo.ElementoGrafico;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Tiro extends ElementoGrafico{
+public class Tiro extends ElementoGrafico {
     private static final int VELOCIDADE = 12;
     public boolean destroid;
     public Tiro(int posX, int posY) {

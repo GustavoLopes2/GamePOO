@@ -1,5 +1,8 @@
 package ifpr.paranavai.jogo.modelo;
 
+import ifpr.paranavai.jogo.modelo.Tiros.SuperTiro;
+import ifpr.paranavai.jogo.modelo.Tiros.Tiro;
+
 import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.event.*;

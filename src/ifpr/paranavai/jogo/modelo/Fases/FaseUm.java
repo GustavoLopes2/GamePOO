@@ -1,13 +1,15 @@
-package ifpr.paranavai.jogo.modelo;
+package ifpr.paranavai.jogo.modelo.Fases;
 
 import ifpr.paranavai.jogo.modelo.Ambiente.Estrelas;
 import ifpr.paranavai.jogo.modelo.Inimigos.InimigoUm;
+import ifpr.paranavai.jogo.modelo.Personagem;
+import ifpr.paranavai.jogo.modelo.Tiros.SuperTiro;
+import ifpr.paranavai.jogo.modelo.Tiros.Tiro;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.*;
 

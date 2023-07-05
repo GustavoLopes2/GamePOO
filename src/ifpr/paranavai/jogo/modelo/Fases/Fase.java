@@ -1,6 +1,7 @@
-package ifpr.paranavai.jogo.modelo;
+package ifpr.paranavai.jogo.modelo.Fases;
 
 import ifpr.paranavai.jogo.modelo.Inimigos.InimigoUm;
+import ifpr.paranavai.jogo.modelo.Personagem;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;

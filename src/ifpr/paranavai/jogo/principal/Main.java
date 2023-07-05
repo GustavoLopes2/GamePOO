@@ -1,7 +1,7 @@
 package ifpr.paranavai.jogo.principal;
 
 import javax.swing.JFrame;
-import ifpr.paranavai.jogo.modelo.FaseUm;
+import ifpr.paranavai.jogo.modelo.Fases.FaseUm;
 public class Main extends JFrame {
     public Main() {
         FaseUm fase = new FaseUm();

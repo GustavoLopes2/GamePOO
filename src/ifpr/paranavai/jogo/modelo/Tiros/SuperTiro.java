@@ -1,9 +1,12 @@
-package ifpr.paranavai.jogo.modelo;
+package ifpr.paranavai.jogo.modelo.Tiros;
+
+import ifpr.paranavai.jogo.modelo.ElementoGrafico;
+import ifpr.paranavai.jogo.modelo.Personagem;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SuperTiro extends ElementoGrafico{
+public class SuperTiro extends ElementoGrafico {
     public boolean destroid;
     private Personagem personagem;
     private long tempoInicial;
