@@ -1,10 +1,10 @@
 package ifpr.paranavai.jogo.principal;
 
 import javax.swing.JFrame;
-import ifpr.paranavai.jogo.modelo.Fase;
+import ifpr.paranavai.jogo.modelo.FaseUm;
 public class Main extends JFrame {
     public Main() {
-        Fase fase = new Fase();
+        FaseUm fase = new FaseUm();
         super.add(fase);
         super.setTitle("Jogo IFPR POO - Gustavo");
         super.setSize(1600,900);

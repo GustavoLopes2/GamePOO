@@ -5,20 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class Personagem  {
-    private int posicaoEmX;
-    private int posicaoEmY;
+public class Personagem extends ElementoGrafico{
     private int deslocamentoEmX;
     private int deslocamentoEmY;
-    private Image imagem;
-    private int larguraImagem;
-    private int alturaImagem;
     private ArrayList<Tiro> tiros;
     private ArrayList<SuperTiro> superTiros;
     private static final int DESLOCAMENTO = 6;
     private static final int POSICAO_INICIAL_EM_X = 100;
     private static final int POSICAO_INICIAL_EM_Y = 100;
-    private boolean isVisivel;
     private long tempoUltimoTiro;
     private long tempoUltimoSuperTiro;
     private long tempoAtual;
@@ -28,30 +22,32 @@ public class Personagem  {
     public boolean destroid;
 
     public Personagem() {
-        this.posicaoEmX = POSICAO_INICIAL_EM_X;;
-        this.posicaoEmY = POSICAO_INICIAL_EM_Y;
+        super.setPosicaoEmX(POSICAO_INICIAL_EM_X);
+        super.setPosicaoEmY(POSICAO_INICIAL_EM_Y);
+        super.setVisivel(true);
         this.tiros = new ArrayList<Tiro>();
         this.superTiros = new ArrayList<SuperTiro>();
-        isVisivel = true;
         this.delayTiro = 150;
         this.delayTiroSuper = 15000;
 
     }
-
+    @Override
     public void carregar() {
         ImageIcon carregando = new ImageIcon("src/resources/nave128Teste.png");
-        this.imagem = carregando.getImage();
-        this.alturaImagem = this.imagem.getHeight(null);
-        this.larguraImagem = this.imagem.getWidth(null);
+        super.setImagem(carregando.getImage());
+        super.setAlturaImagem(super.getImagem().getHeight(null));
+        super.setLarguraImagem(super.getImagem().getWidth(null));
     }
 
-    public Rectangle getRectangle() {
-        return new Rectangle(this.posicaoEmX, this.posicaoEmY, this.larguraImagem, this.alturaImagem);
-    }
-
+    @Override
     public void atualizar() {
-        this.posicaoEmX = this.posicaoEmX + this.deslocamentoEmX;
-        this.posicaoEmY = this.posicaoEmY + this.deslocamentoEmY;
+        super.setPosicaoEmX(super.getPosicaoEmX() + this.deslocamentoEmX);
+        super.setPosicaoEmY(super.getPosicaoEmY() + this.deslocamentoEmY);
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return new Rectangle(super.getPosicaoEmX(), super.getPosicaoEmY(), super.getLarguraImagem(), super.getAlturaImagem());
     }
 
     public void atirar() {
@@ -61,8 +57,8 @@ public class Personagem  {
             return;
         }
 
-        int frenteDaNave = this.posicaoEmX + this.larguraImagem;
-        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2)-4;
+        int frenteDaNave = super.getPosicaoEmX() + super.getLarguraImagem();
+        int meioDaNave = super.getPosicaoEmY() + (super.getAlturaImagem() / 2)-4;
 
         Tiro tiro = new Tiro(frenteDaNave, meioDaNave);
         this.tiros.add(tiro);
@@ -75,8 +71,8 @@ public class Personagem  {
             return;
         }
 
-        int frenteDaNave = this.posicaoEmX + this.larguraImagem;
-        int meioDaNave = this.posicaoEmY + (this.alturaImagem / 2)-4;
+        int frenteDaNave = super.getPosicaoEmX() + super.getLarguraImagem();
+        int meioDaNave = super.getPosicaoEmY() + (super.getAlturaImagem() / 2)-4;
 
         SuperTiro superTiro = new SuperTiro(frenteDaNave, meioDaNave, this);
         this.superTiros.add(superTiro);
@@ -121,31 +117,6 @@ public class Personagem  {
                 break;
         }
     }
-
-    public boolean isVisivel() {
-        return isVisivel;
-    }
-
-    public void setVisivel(boolean visivel) {
-        isVisivel = visivel;
-    }
-
-    public int getPosicaoEmX() {
-        return posicaoEmX;
-    }
-
-    public void setPosicaoEmX(int posicaoEmX) {
-        this.posicaoEmX = posicaoEmX;
-    }
-
-    public int getPosicaoEmY() {
-        return posicaoEmY;
-    }
-
-    public void setPosicaoEmY(int posicaoEmY) {
-        this.posicaoEmY = posicaoEmY;
-    }
-
     public int getDeslocamentoEmX() {
         return deslocamentoEmX;
     }
@@ -160,30 +131,6 @@ public class Personagem  {
 
     public void setDeslocamentoEmY(int deslocamentoEmY) {
         this.deslocamentoEmY = deslocamentoEmY;
-    }
-
-    public Image getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(Image imagem) {
-        this.imagem = imagem;
-    }
-
-    public int getLarguraImagem() {
-        return larguraImagem;
-    }
-
-    public void setLarguraImagem(int larguraImagem) {
-        this.larguraImagem = larguraImagem;
-    }
-
-    public int getAlturaImagem() {
-        return alturaImagem;
-    }
-
-    public void setAlturaImagem(int alturaImagem) {
-        this.alturaImagem = alturaImagem;
     }
 
     public int getLife() {
